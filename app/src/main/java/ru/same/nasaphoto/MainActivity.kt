@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), Presenter.View {
     private lateinit var progressBar: ProgressBar
     private lateinit var calendar: CalendarView
     private lateinit var presenter: Presenter
+    private lateinit var camera:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +33,13 @@ class MainActivity : AppCompatActivity(), Presenter.View {
         calendar = findViewById(R.id.calendar)
         progressBar = findViewById(R.id.proBar)
         presenter = Presenter(this)
+        camera = "fhaz"
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             var day = ""
             if (dayOfMonth<10)
              day = "0$dayOfMonth"
             else day = dayOfMonth.toString()
-            presenter.setDate("$year-${month + 1}-$day")
+            presenter.setDate("$year-${month + 1}-$day", camera)
             presenter.getData()
         }
     }
@@ -47,6 +49,14 @@ class MainActivity : AppCompatActivity(), Presenter.View {
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id){
+            R.id.fhaz -> camera= "fhaz"
+            R.id.rhaz -> camera = "rhaz"
+            R.id.chemcam -> camera = "chemcam"
+            R.id.mast -> camera = "mast"
+            R.id.navcam -> camera = "navcam"
+        }
         showCalendar()
         return super.onOptionsItemSelected(item)
     }

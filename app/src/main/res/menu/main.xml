@@ -2,8 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <item
+    android:id="@+id/chooseDate"
     android:title="Выбрать новую дату"
     app:showAsAction="ifRoom"
     android:icon="@drawable/date"
     />
+    <item
+        android:id="@+id/fhaz"
+        android:title="FHAZ"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/rhaz"
+        android:title="RHAZ"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/mast"
+        android:title="MAST"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/chemcam"
+        android:title="CHEMCAM"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/navcam"
+        android:title="NAVCAM"
+        app:showAsAction="never"
+        />
 </menu>

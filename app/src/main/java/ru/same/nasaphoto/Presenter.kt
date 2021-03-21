@@ -18,8 +18,9 @@ class Presenter(var view: View) {
     private val key = "KLWjvXIygbbLfB6cYpqH3ji6Xlb45OvEckI7Mfu0"
     private var camera = "fhaz"
 
-    fun setDate(string: String){
+    fun setDate(string: String, cam:String){
         date = string
+        camera = cam
     }
     fun getData(){
         view.showProgressBar()

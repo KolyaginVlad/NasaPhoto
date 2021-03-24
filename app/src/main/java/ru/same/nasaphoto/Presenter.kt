@@ -29,7 +29,8 @@ class Presenter(var view: View) {
             override fun onResponse(call: Call<PostNasa?>, response: Response<PostNasa?>) {
                 try {
                     postNasa = response.body()!!
-                    getImage()
+                    view.setData("https://"+postNasa.photos[0].imgSrc.substringAfter("//"), date)
+                    view.hideProgressBar()
                 }catch (e: Exception){
                     view.hideProgressBar()
                     view.setData(null,"Rover isn't active")
@@ -42,27 +43,27 @@ class Presenter(var view: View) {
         })
     }
 
-    fun getImage(){
-        val client: OkHttpClient = OkHttpClient()
-        val request = Request.Builder()
-            .url("https://"+postNasa.photos[0].imgSrc.substringAfter("//")).build()
-        client.newCall(request).enqueue(object : okhttp3.Callback{
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-              val img = response.body()?.bytes()
-                val bitmap = img?.size?.let { BitmapFactory.decodeByteArray(img,0, it) }
-                bitmap?.let { view.setData(it, date) }
-                view.hideProgressBar()
-            }
-
-        })
-    }
+//    fun getImage(){
+//        val client: OkHttpClient = OkHttpClient()
+//        val request = Request.Builder()
+//            .url("https://"+postNasa.photos[0].imgSrc.substringAfter("//")).build()
+//        client.newCall(request).enqueue(object : okhttp3.Callback{
+//            override fun onFailure(call: okhttp3.Call, e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+//              val img = response.body()?.bytes()
+//                val bitmap = img?.size?.let { BitmapFactory.decodeByteArray(img,0, it) }
+//                bitmap?.let { view.setData(it, date) }
+//                view.hideProgressBar()
+//            }
+//
+//        })
+//    }
 
     interface View{
-        fun setData(bitmap: Bitmap?, date: String)
+        fun setData(image: String?, date: String)
         fun showProgressBar()
         fun hideProgressBar()
         fun showCalendar()

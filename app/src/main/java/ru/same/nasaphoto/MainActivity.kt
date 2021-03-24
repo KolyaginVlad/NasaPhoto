@@ -1,13 +1,12 @@
 package ru.same.nasaphoto
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebView
 import android.widget.CalendarView
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,7 @@ import androidx.appcompat.widget.Toolbar
 
 
 class MainActivity : AppCompatActivity(), Presenter.View {
-    private lateinit var image: ImageView
+    private lateinit var image: WebView
     private lateinit var date: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var calendar: CalendarView
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), Presenter.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when(id){
-            R.id.fhaz -> camera= "fhaz"
+            R.id.fhaz -> camera = "fhaz"
             R.id.rhaz -> camera = "rhaz"
             R.id.chemcam -> camera = "chemcam"
             R.id.mast -> camera = "mast"
@@ -60,24 +59,27 @@ class MainActivity : AppCompatActivity(), Presenter.View {
         showCalendar()
         return super.onOptionsItemSelected(item)
     }
-    override fun setData(bitmap: Bitmap?, date: String) {
+    override fun setData(im: String?, date: String) {
         runOnUiThread {
 
-            if (bitmap == null) {
+            if (im == null) {
                 this.date.text = date
                 this.date.visibility = View.VISIBLE
-                image.setImageBitmap(null)
+                image.visibility = View.INVISIBLE
             } else {
+                image.visibility = View.VISIBLE
                 val display = windowManager.defaultDisplay
                 val metricsB = DisplayMetrics()
                 display.getMetrics(metricsB)
-                val bmap = Bitmap.createScaledBitmap(
-                    bitmap,
-                    metricsB.widthPixels,
-                    metricsB.widthPixels,
-                    true
-                )
-                image.setImageBitmap(bmap)
+//                val bmap = Bitmap.createScaledBitmap(
+//                    bitmap,
+//                    metricsB.widthPixels,
+//                    metricsB.widthPixels,
+//                    true
+//                )
+                val html =
+                    "<html><body><img src=\"" + im + "\" width=\"100%\" height=\"100%\"\"/></body></html>"
+                image.loadData(html, "text/html", null)
                 this.date.text = date
                 this.date.visibility = View.VISIBLE
                 image.visibility = View.VISIBLE
